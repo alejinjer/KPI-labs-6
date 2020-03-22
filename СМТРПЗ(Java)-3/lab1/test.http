@@ -1,0 +1,14 @@
+### Create entity
+POST http://localhost:8081/users?id=1&name=Alex&surname=Piskun&email=ezyyk77@gmail.com&gender=male&country=Ukraine
+
+### Update entity
+PUT http://localhost:8081/users?id=1&name=Serg&surname=Piskun&email=another_email&gender=male&country=Ukraine
+
+### Fetch entities
+GET http://localhost:8081/users
+
+### Fetch entity
+GET http://localhost:8081/users?id=1
+
+### Delete entity
+DELETE http://localhost:8081/entity?id=1

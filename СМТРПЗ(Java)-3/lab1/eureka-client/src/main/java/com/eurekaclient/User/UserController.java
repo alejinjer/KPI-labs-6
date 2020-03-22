@@ -17,15 +17,15 @@ public class UserController {
     UserRepository userRepository;
 
     @Value("${eureka.instance.instanceId}")
-    private Integer instanceId;
+    private String instanceId;
 
     @GetMapping("/")
-    public Integer getInstanceId() {
+    public String getInstanceId() {
         return instanceId;
     }
 
     // read
-    @GetMapping("/user")
+    @GetMapping("/users")
     public String getUserById(@RequestParam(value = "id", required = false) Integer id) {
 
         List<User> resultList = new ArrayList<>();
@@ -39,20 +39,20 @@ public class UserController {
                 resultList.add(user.get());
             }
         }
-        Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
-        String prettyJson = prettyGson.toJson(resultList);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(resultList);
         return prettyJson;
     }
 
     // create
-    @PostMapping("/user")
-    public Boolean addCustomer(@RequestBody
-                               @RequestParam(value = "id", required = true) Integer id,
-                               @RequestParam(value = "name", required = true) String name,
-                               @RequestParam(value = "surname", required = true) String surname,
-                               @RequestParam(value = "email", required = true) String email,
-                               @RequestParam(value = "gender", required = true) String gender,
-                               @RequestParam(value = "country", required = true) String country) {
+    @PostMapping("/users")
+    public Boolean addUser(@RequestBody
+                           @RequestParam(value = "id", required = true) Integer id,
+                           @RequestParam(value = "name", required = true) String name,
+                           @RequestParam(value = "surname", required = true) String surname,
+                           @RequestParam(value = "email", required = true) String email,
+                           @RequestParam(value = "gender", required = true) String gender,
+                           @RequestParam(value = "country", required = true) String country) {
         Optional<User> test = userRepository.findById(id);
         if (test.isPresent()) {
             return false;
@@ -70,14 +70,14 @@ public class UserController {
     }
 
     // update
-    @PutMapping("/user")
-    public Boolean updateCustomer(@RequestBody
-                                      @RequestParam(value = "id", required = true) Integer id,
-                                  @RequestParam(value = "name", required = true) String name,
-                                  @RequestParam(value = "surname", required = true) String surname,
-                                  @RequestParam(value = "email", required = true) String email,
-                                  @RequestParam(value = "gender", required = true) String gender,
-                                  @RequestParam(value = "country", required = true) String country) {
+    @PutMapping("/users")
+    public Boolean updateUser(@RequestBody
+                              @RequestParam(value = "id", required = true) Integer id,
+                              @RequestParam(value = "name", required = true) String name,
+                              @RequestParam(value = "surname", required = true) String surname,
+                              @RequestParam(value = "email", required = true) String email,
+                              @RequestParam(value = "gender", required = true) String gender,
+                              @RequestParam(value = "country", required = true) String country) {
         Optional<User> test = userRepository.findById(id);
         if (!test.isPresent()) {
             return false;
@@ -95,8 +95,8 @@ public class UserController {
     }
 
     // delete
-    @DeleteMapping("/user")
-    public Boolean deleteCustomer(@RequestBody
+    @DeleteMapping("/users")
+    public Boolean deleteUser(@RequestBody
                               @RequestParam(value = "id", required = true) Integer id) {
         Optional<User> test = userRepository.findById(id);
         if (!test.isPresent()) {

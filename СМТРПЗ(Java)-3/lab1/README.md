@@ -1,8 +1,16 @@
-<h3>To run the Eureka service with Maven, run the following command in a terminal window:</h3>
-<tt>./mvnw spring-boot:run -pl eureka-service</tt> 
-
-<h3>To run the Eureka client with Maven, run the following command in a terminal window:</h3>
-<tt>./mvnw spring-boot:run -pl eureka-client</tt> 
-
-<h3>DB uses the one only table Customers</h3>
-<tt>create table customers(id int primary key, name varchar(255), url varchar(255));</tt>
+DB uses the one only table "users"
+```
+CREATE DATABASE lab1;
+use lab1;
+CREATE TABLE users(ID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ NAME VARCHAR(255), SURNAME VARCHAR(255), EMAIL VARCHAR(255),
+ GENDER VARCHAR(255), COUNTRY VARCHAR(255);
+```
+To run Eureka service and client with Maven, run the following commands in terminal window:
+```
+cd lab1
+./mvnw spring-boot:run -pl eureka-service // запустити сервер
+./mvnw spring-boot:run -pl eureka-service // запустити клiент
+```
+Eureka Server URL: http://localhost:8761
+Service URL: http://localhost:8081
