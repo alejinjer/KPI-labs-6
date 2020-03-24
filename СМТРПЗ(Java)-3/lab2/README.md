@@ -1,9 +1,9 @@
 ### You need:
 
-docker
+docker<br>
 docker compose
 
-## Run the following commands in terminal window:
+### Run the following commands in terminal window:
 ```
 cd lab2
 docker-compose build
