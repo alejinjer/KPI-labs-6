@@ -1,6 +1,6 @@
 ### You need:
 
-docker
+docker<br>
 docker compose
 
 ## Run project:
@@ -15,7 +15,8 @@ docker-compose build
 docker-compose up --scale eureka-client=2
 ```
 
-## To test config server, run the following commands when all microservices started-up:
+To test config server, run the following commands when all microservices started-up<br>
+and make requests from test.http.
 ```
 docker container ls                                // find config-server instance id
 docker exec -it [config-server instance id] bin/sh // connect to container
