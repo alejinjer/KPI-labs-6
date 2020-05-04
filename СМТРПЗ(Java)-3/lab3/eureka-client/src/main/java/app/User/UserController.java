@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -64,16 +65,17 @@ public class UserController {
 
     // create
     @PostMapping("/users")
-    public Boolean addUser(@RequestBody
+    public ResponseEntity<String> addUser(@RequestBody
                                @RequestParam(value = "id", required = true) Integer id,
-                               @RequestParam(value = "name", required = true) String name,
-                               @RequestParam(value = "surname", required = true) String surname,
-                               @RequestParam(value = "email", required = true) String email,
-                               @RequestParam(value = "gender", required = true) String gender,
-                               @RequestParam(value = "country", required = true) String country) {
+                                  @RequestParam(value = "name", required = true) String name,
+                                  @RequestParam(value = "surname", required = true) String surname,
+                                  @RequestParam(value = "email", required = true) String email,
+                                  @RequestParam(value = "gender", required = true) String gender,
+                                  @RequestParam(value = "country", required = true) String country) {
         Optional<User> test = userRepository.findById(id);
         if (test.isPresent()) {
-            return false;
+            return ResponseEntity.badRequest()
+                    .body("This id is already busy.");
         }
         User user = new User();
         user.setId(id);
@@ -84,12 +86,12 @@ public class UserController {
         user.setCountry(country);
         userRepository.save(user);
 
-        return true;
+        return ResponseEntity.ok("OK");
     }
 
     // update
     @PutMapping("/users")
-    public Boolean updateUser(@RequestBody
+    public ResponseEntity<String> updateUser(@RequestBody
                                       @RequestParam(value = "id", required = true) Integer id,
                                   @RequestParam(value = "name", required = true) String name,
                                   @RequestParam(value = "surname", required = true) String surname,
@@ -98,7 +100,8 @@ public class UserController {
                                   @RequestParam(value = "country", required = true) String country) {
         Optional<User> test = userRepository.findById(id);
         if (!test.isPresent()) {
-            return false;
+            return ResponseEntity.badRequest()
+                    .body("Can`t find this user.");
         }
         User user = new User();
         user.setId(id);
@@ -109,18 +112,19 @@ public class UserController {
         user.setCountry(country);
         userRepository.save(user);
 
-        return true;
+        return ResponseEntity.ok("OK");
     }
 
     // delete
     @DeleteMapping("/users")
-    public Boolean deleteUser(@RequestBody
+    public ResponseEntity<String> deleteUser(@RequestBody
                               @RequestParam(value = "id", required = true) Integer id) {
         Optional<User> test = userRepository.findById(id);
         if (!test.isPresent()) {
-            return false;
+            return ResponseEntity.badRequest()
+                    .body("Can`t find this user.");
         }
         userRepository.deleteById(id);
-        return true;
+        return ResponseEntity.ok("OK");
     }
 }
