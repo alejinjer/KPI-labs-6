@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,21 +73,25 @@ public class UserController {
                                   @RequestParam(value = "email", required = true) String email,
                                   @RequestParam(value = "gender", required = true) String gender,
                                   @RequestParam(value = "country", required = true) String country) {
-        Optional<User> test = userRepository.findById(id);
-        if (test.isPresent()) {
-            return ResponseEntity.badRequest()
-                    .body("This id is already busy.");
+        try {
+            Optional<User> test = userRepository.findById(id);
+            if (test.isPresent()) {
+                return ResponseEntity.badRequest()
+                        .body("This id is already busy.");
+            }
+            User user = new User();
+            user.setId(id);
+            user.setName(name);
+            user.setSurname(surname);
+            user.setEmail(email);
+            user.setGender(gender);
+            user.setCountry(country);
+            userRepository.save(user);
+            return ResponseEntity.ok("OK");
         }
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setEmail(email);
-        user.setGender(gender);
-        user.setCountry(country);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("OK");
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // update
@@ -98,21 +103,25 @@ public class UserController {
                                   @RequestParam(value = "email", required = true) String email,
                                   @RequestParam(value = "gender", required = true) String gender,
                                   @RequestParam(value = "country", required = true) String country) {
-        Optional<User> test = userRepository.findById(id);
-        if (!test.isPresent()) {
-            return ResponseEntity.badRequest()
-                    .body("Can`t find this user.");
+        try {
+            Optional<User> test = userRepository.findById(id);
+            if (!test.isPresent()) {
+                return ResponseEntity.badRequest()
+                        .body("Can`t find this user.");
+            }
+            User user = new User();
+            user.setId(id);
+            user.setName(name);
+            user.setSurname(surname);
+            user.setEmail(email);
+            user.setGender(gender);
+            user.setCountry(country);
+            userRepository.save(user);
+            return ResponseEntity.ok("OK");
         }
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setEmail(email);
-        user.setGender(gender);
-        user.setCountry(country);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("OK");
+        catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // delete
