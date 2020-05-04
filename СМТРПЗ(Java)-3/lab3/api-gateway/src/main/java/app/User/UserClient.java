@@ -1,6 +1,7 @@
 package app.User;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,17 +22,17 @@ public interface UserClient {
 
     // create
     @PostMapping("/users")
-    public Boolean addUser(@RequestBody
+    public ResponseEntity<String> addUser(@RequestBody
                            @RequestParam(value = "id", required = true) Integer id,
-                           @RequestParam(value = "name", required = true) String name,
-                           @RequestParam(value = "surname", required = true) String surname,
-                           @RequestParam(value = "email", required = true) String email,
-                           @RequestParam(value = "gender", required = true) String gender,
-                           @RequestParam(value = "country", required = true) String country);
+                                          @RequestParam(value = "name", required = true) String name,
+                                          @RequestParam(value = "surname", required = true) String surname,
+                                          @RequestParam(value = "email", required = true) String email,
+                                          @RequestParam(value = "gender", required = true) String gender,
+                                          @RequestParam(value = "country", required = true) String country);
 
     // update
     @PutMapping("/users")
-    public Boolean updateUser(@RequestBody
+    public ResponseEntity<String> updateUser(@RequestBody
                               @RequestParam(value = "id", required = true) Integer id,
                               @RequestParam(value = "name", required = true) String name,
                               @RequestParam(value = "surname", required = true) String surname,
@@ -41,6 +42,6 @@ public interface UserClient {
 
     // delete
     @DeleteMapping("/users")
-    public Boolean deleteUser(@RequestBody
+    public ResponseEntity<String> deleteUser(@RequestBody
                               @RequestParam(value = "id", required = true) Integer id);
 }
